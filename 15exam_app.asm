@@ -1,7 +1,6 @@
-   ;代码清单15-3，文件名：c15_app.asm
-         ;文件说明：用户程序
-         ;修改于2022-02-28
-
+      17--18，65--68行是章末习题
+      
+    
 ;===============================================================================
 SECTION header vstart=0
 
@@ -16,8 +15,8 @@ SECTION header vstart=0
          data_seg         dd section.data.start   ;数据段位置#0x14
          data_len         dd data_end             ;数据段长度#0x18
 
-         stack_seg        dd 0                    ;栈段位置#0x1c                                                ;为了避免麻烦我没有删除这8字节空间，如果删掉导致符号地址检索表（usalt）汇编地址被改变
-         stack_len        dd 0                    ;栈段长度#0x20                                                ;直接设为0就好了
+         stack_seg        dd 0                    ;栈段位置#0x1c        ;为了避免麻烦我没有删除这8字节空间，如果删掉导致符号地址检索表（usalt）汇编地址被改变
+         stack_len        dd 0                    ;栈段长度#0x20        ;直接设为0就好了
          
 ;-------------------------------------------------------------------------------
          ;符号地址检索表
@@ -63,7 +62,9 @@ start:
          mov eax,ds
          mov fs,eax
 
-         mov ss,[fs:stack_seg]
+         mov eax,[data_seg]
+         add eax,8                           
+         mov ss,eax                          ;在数据段选择子的基础上加8，因为栈段是在程序所有段后又新开了一个
          mov esp,stack_end
 
          mov ds,[fs:data_seg]
